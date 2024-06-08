@@ -1,0 +1,5 @@
+# Virtual environments
+/rembg-env
+
+# Pycache
+/__pycache__
