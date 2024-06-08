@@ -1,65 +1,102 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import useDragAndDrop from "@/hooks/useDragAndDrop";
 import Axios from "axios";
+import Image from "next/image";
+import styles from "@/styles/page.module.scss";
 
 interface InputProps {
-  user_input: string;
-  word_length: string;
+  uploaded_image: string;
 }
 
 const backendUrl = "http://localhost:8000";
 
-// Define the mutation function
-const sendUserInput = async (userInput: string) => {
-  const response = await Axios.post(
-    `${backendUrl}/api/home`,
-    { userInput },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+// Send image to the server
+const sendImage = async (inputImage: File) => {
+  const formData = new FormData();
+  formData.append("imageFile", inputImage);
+
+  const response = await Axios.post(`${backendUrl}/api/remove-bg`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
   return response.data;
 };
 
 export default function Home() {
-  const [userInput, setUserInput] = useState("");
+  const [file, setFile] = useState<File>();
+  const { dragOver, setDragOver, onDragOver, onDragLeave } = useDragAndDrop();
 
   // Use the useMutation hook
-  const mutation = useMutation<InputProps, Error, typeof userInput>({
-    mutationFn: sendUserInput,
+  const mutation = useMutation<InputProps, Error, File>({
+    mutationFn: sendImage,
   });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
-    mutation.mutate(userInput);
-    setUserInput("");
+
+    setDragOver(false);
+
+    const imageFile = e?.dataTransfer?.files[0];
+
+    if (imageFile) {
+      mutation.mutate(imageFile);
+      setFile(imageFile);
+    }
+  };
+
+  const fileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const imageFile = e.target.files?.[0];
+
+    if (imageFile) {
+      mutation.mutate(imageFile);
+      setFile(imageFile);
+    }
   };
 
   return (
     <main>
-      <h1>Type some words</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-        />
-        <button type="submit">Submit</button>
-      </form>
-
-      <br />
+      <div className={styles["container"]}>
+        <form>
+          <label
+            htmlFor="file"
+            onDragOver={onDragOver}
+            onDragLeave={onDragLeave}
+            onDrop={onDrop}
+          >
+            {file && <h1>{file.name}</h1>}
+            {!file && (
+              <h1 style={{ color: `${dragOver ? " yellowgreen" : ""}` }}>
+                {!dragOver
+                  ? "Drag Images or Click here to upload"
+                  : "Drop here..."}
+              </h1>
+            )}
+          </label>
+          <input
+            type="file"
+            name="file"
+            id="file"
+            accept="image/*"
+            onChange={fileSelect}
+          />
+        </form>
+      </div>
 
       {mutation.isPending && <p>Loading...</p>}
       {mutation.isError && <p>An error occurred.</p>}
       {mutation.isSuccess && (
         <div>
-          <p>{mutation.data.user_input}</p>
-          <p>{mutation.data.word_length}</p>
+          <Image
+            src={`${backendUrl}/api/get-image/${mutation.data.uploaded_image}`}
+            alt=""
+            width={300}
+            height={300}
+          />
         </div>
       )}
     </main>
