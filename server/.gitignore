@@ -6,3 +6,6 @@
 
 # Upload folder
 /uploads
+
+# Output folder
+/output
