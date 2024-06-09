@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import useDragAndDrop from "@/hooks/useDragAndDrop";
 import Axios from "axios";
@@ -117,9 +116,9 @@ export default function Home() {
                 height={300}
               />
               {downloadImage && (
-                <Link href={`${backendUrl}/${downloadImage}`} download>
+                <a href={`${backendUrl}/${downloadImage}`} download>
                   Click here to download
-                </Link>
+                </a>
               )}
             </div>
           ) : null}
