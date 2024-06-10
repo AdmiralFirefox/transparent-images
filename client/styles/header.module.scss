@@ -1,0 +1,36 @@
+@use "themeprovider/themeprovider" as theme;
+
+.header {
+  display: flex;
+  justify-content: center;
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5em;
+    align-items: center;
+    width: min(50em, 87%);
+    padding: 1.7em 0.5em;
+
+    h1 {
+      font-size: clamp(1.2rem, 4vw, 1.7rem);
+      color: theme.$purple-color;
+    }
+
+    button {
+      padding: 0.8em 1em;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: theme.$purple-color;
+      color: theme.$white-color;
+      border: none;
+      border-radius: 6px;
+      transition: background 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        background: theme.$purple-color-hover;
+      }
+    }
+  }
+}
