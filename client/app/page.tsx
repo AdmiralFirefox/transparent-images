@@ -77,6 +77,10 @@ export default function Home() {
       <Header />
 
       <main>
+        <div className={styles["website-title"]}>
+          <h1>Remove background images and make it transparent easily!</h1>
+        </div>
+
         {inputMode ? (
           <div className={styles["container"]}>
             <form>
