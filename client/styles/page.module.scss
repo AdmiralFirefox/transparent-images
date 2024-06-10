@@ -49,3 +49,26 @@
     }
   }
 }
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5em;
+
+  button {
+    width: min(35em, 90%);
+    padding: 1em;
+    font-size: 1rem;
+    font-weight: 600;
+    background: theme.$purple-color;
+    color: theme.$white-color;
+    border: none;
+    border-radius: 6px;
+    transition: background 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      background: theme.$purple-color-hover;
+    }
+  }
+}

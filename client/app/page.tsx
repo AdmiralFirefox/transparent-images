@@ -6,6 +6,8 @@ import useDragAndDrop from "@/hooks/useDragAndDrop";
 import Axios from "axios";
 import Image from "next/image";
 import Header from "./components/Header";
+import Loading from "./components/Loading";
+import Error from "./components/Error";
 import styles from "@/styles/page.module.scss";
 
 interface InputProps {
@@ -108,13 +110,15 @@ export default function Home() {
         ) : null}
 
         {inputMode ? null : (
-          <button onClick={resetInputs}>Choose another image</button>
+          <div className={styles["button-wrapper"]}>
+            <button onClick={resetInputs}>Choose another image</button>
+          </div>
         )}
 
         {inputMode ? null : (
           <>
-            {mutation.isPending && <p>Loading...</p>}
-            {mutation.isError && <p>An error occurred.</p>}
+            {mutation.isPending && <Loading />}
+            {mutation.isError && <Error />}
             {mutation.isSuccess && mutation.data !== undefined ? (
               <div>
                 <Image
