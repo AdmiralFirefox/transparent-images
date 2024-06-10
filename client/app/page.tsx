@@ -120,15 +120,21 @@ export default function Home() {
             {mutation.isPending && <Loading />}
             {mutation.isError && <Error />}
             {mutation.isSuccess && mutation.data !== undefined ? (
-              <div>
-                <Image
-                  src={`${backendUrl}/api/transparent-image/${mutation.data.transparent_image}`}
-                  alt=""
-                  width={300}
-                  height={300}
-                />
+              <div className={styles["output"]}>
+                <div className={styles["image-wrapper"]}>
+                  <Image
+                    src={`${backendUrl}/api/transparent-image/${mutation.data.transparent_image}`}
+                    alt=""
+                    width={300}
+                    height={300}
+                  />
+                </div>
                 {downloadImage && (
-                  <a href={`${backendUrl}/${downloadImage}`} download>
+                  <a
+                    href={`${backendUrl}/${downloadImage}`}
+                    download
+                    className={styles["image-download"]}
+                  >
                     Click here to download
                   </a>
                 )}
