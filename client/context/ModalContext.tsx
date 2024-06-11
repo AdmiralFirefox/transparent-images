@@ -4,5 +4,5 @@ export const ModalContext = createContext({
   imageModal: false,
   openImageModal: () => {},
   closeImageModal: () => {},
-  setImage: (_image: File) => {},
+  setImage: (_image: string) => {},
 });

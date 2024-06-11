@@ -85,8 +85,22 @@ export default function Home() {
     unlock();
   };
 
-  const setImage = (image: File) => {
-    unlock();
+  const setImage = async (imagePath: string) => {
+    if (imagePath) {
+      const response = await fetch(imagePath);
+      const blob = await response.blob();
+
+      // Extract the filename from the imagePath
+      const filename = imagePath.split("/").pop();
+      const imageFile = new File([blob], filename as string, {
+        type: blob.type,
+      });
+
+      mutation.mutate(imageFile);
+      setInputMode(false);
+      setImageModal(false);
+      unlock();
+    }
   };
 
   const ModalFunction = {
