@@ -19,8 +19,8 @@ const ImageModal = () => {
             <div className={styles["image-wrapper"]} onClick={() => setImage("/dolphin.jpg")}>
               <Image src="/dolphin.jpg" alt="" width={300} height={300} />
             </div>
-            <div className={styles["image-wrapper"]} onClick={() => setImage("/tiger.jpg")}>
-              <Image src="/tiger.jpg" alt="" width={300} height={300} />
+            <div className={styles["image-wrapper"]} onClick={() => setImage("/jaguar.webp")}>
+              <Image src="/jaguar.webp" alt="" width={300} height={300} />
             </div>
             <div className={styles["image-wrapper"]} onClick={() => setImage("/elephant.webp")}>
               <Image src="/elephant.webp" alt="" width={300} height={300} />
