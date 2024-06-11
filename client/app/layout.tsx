@@ -6,8 +6,8 @@ import "@/styles/globals.scss";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Next JS Flask",
-  description: "Next JS Flask Application",
+  title: "Transparent Images",
+  description: "Make your images transparent by simply uploading it.",
 };
 
 export default function RootLayout({

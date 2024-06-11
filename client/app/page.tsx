@@ -168,9 +168,10 @@ export default function Home() {
                 <div className={styles["image-wrapper"]}>
                   <Image
                     src={`${backendUrl}/api/transparent-image/${mutation.data.transparent_image}`}
-                    alt=""
+                    alt="Transparent Image"
                     width={300}
                     height={300}
+                    unoptimized
                   />
                 </div>
                 {downloadImage && (

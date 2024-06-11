@@ -1,0 +1,22 @@
+services:
+  # nextjs service
+  frontend:
+    container_name: transparent_img_frontend
+    image: transparent_img_frontend:1.0.0
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+
+  # flask service
+  backend:
+    container_name: transparent_img_backend
+    image: transparent_img_backend:1.0.0
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
