@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { ModalContext } from "@/context/ModalContext";
 import { useMutation } from "@tanstack/react-query";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import useDragAndDrop from "@/hooks/useDragAndDrop";
 import Axios from "axios";
 import Image from "next/image";
@@ -34,7 +36,12 @@ const sendImage = async (inputImage: File) => {
 export default function Home() {
   const [inputMode, setInputMode] = useState(true);
   const [downloadImage, setDownloadImage] = useState<string | null>(null);
+  const [imageModal, setImageModal] = useState(false);
   const { dragOver, setDragOver, onDragOver, onDragLeave } = useDragAndDrop();
+  const { lock, unlock } = useScrollLock({
+    autoLock: false,
+    lockTarget: "#scrollable",
+  });
 
   // Use the useMutation hook
   const mutation = useMutation<InputProps, Error, File>({
@@ -68,6 +75,27 @@ export default function Home() {
     setInputMode(true);
   };
 
+  const openImageModal = () => {
+    setImageModal(true);
+    lock();
+  };
+
+  const closeImageModal = () => {
+    setImageModal(false);
+    unlock();
+  };
+
+  const setImage = (image: File) => {
+    unlock();
+  };
+
+  const ModalFunction = {
+    imageModal,
+    openImageModal,
+    closeImageModal,
+    setImage,
+  };
+
   useEffect(() => {
     if (mutation.isSuccess && mutation.data?.download_url) {
       setDownloadImage(mutation.data.download_url);
@@ -76,7 +104,9 @@ export default function Home() {
 
   return (
     <>
-      <Header />
+      <ModalContext.Provider value={ModalFunction}>
+        <Header />
+      </ModalContext.Provider>
 
       <main>
         <div className={styles["website-title"]}>

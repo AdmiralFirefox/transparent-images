@@ -80,7 +80,7 @@
   margin-bottom: 3em;
 
   .image-wrapper {
-    width: 35em;
+    width: min(35em, 100%);
     margin-top: 1em;
 
     img {
