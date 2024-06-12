@@ -1,4 +1,4 @@
-FROM python:3.12.0-slim AS flask
+FROM python:3.11-slim AS flask
 
 WORKDIR /app
 
